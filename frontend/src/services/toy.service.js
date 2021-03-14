@@ -39,7 +39,6 @@ async function query() {
 async function getById(id) {
   try {
     const toy = await httpService.get(TOY_URL + id);
-    console.log('toy from toyService frontend:', toy);
     return toy;
   } catch (err) {
     console.log('getById in toy service fronten: ', err);
@@ -49,7 +48,6 @@ async function getById(id) {
 async function remove(id) {
   try {
     const toy = await httpService.delete(TOY_URL + id);
-    console.log('toy from toyService frontend:', toy);
     return toy;
   } catch (err) {
     console.log('deleted toy service fronten: ', err);
@@ -61,13 +59,9 @@ async function save(toy) {
   try {
     if (toy._id) {
       savedToy = await httpService.put(TOY_URL + toy._id, toy);
-      console.log('savedToy from save toy service', savedToy);
     } else {
-      console.log('got toy from store', toy);
       savedToy = await httpService.post(TOY_URL, toy);
-      console.log('update from save toy service', savedToy);
     }
-    console.log('before return in save service', savedToy);
     return savedToy;
   } catch (err) {
     console.log('saved toy from service frontend: ', err);

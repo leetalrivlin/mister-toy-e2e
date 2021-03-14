@@ -17,7 +17,8 @@ export default {
     toyFooter,
   },
   created() {
-    this.$store.dispatch({ type: 'loadToys' });
+    this.$store.dispatch('loadToys');
+    this.$store.dispatch('loadReviews');
   },
 };
 </script>

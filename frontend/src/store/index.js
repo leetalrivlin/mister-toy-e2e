@@ -1,120 +1,50 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { toyService } from '../services/toy.service.js';
-import { userService } from '../services/user.service.js';
+import { reviewService } from '../services/review.service.js';
+import { toyStore } from './toy.store.js';
+import { userStore } from './user.store.js';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    toys: [],
-    filterBy: {},
-    loggedInUser: {},
+    reviews: null,
   },
 
   getters: {
-    toys(state) {
-      return state.toys;
-    },
-    loggedInUser(state) {
-      return state.loggedInUser;
-    },
+
   },
 
   mutations: {
-    setToys(state, { toys }) {
-      state.toys = toys;
+    setReviews(state, { reviews }) {
+      state.reviews = reviews;
     },
-    setFilter(state, { filterBy }) {
-      state.filterBy = filterBy;
-    },
-    setUser(state, { user }) {
-      state.loggedInUser = user;
-    },
-    logoutUser(state, payload) {
-      state.loggedInUser = null;
-    },
-    removeToy(state, { toyId }) {
-      const idx = state.toys.findIndex((t) => t._id === toyId);
-      state.toys.splice(idx, 1);
-    },
-    addToy(state, { toy }) {
-      state.toys.push(toy);
-    },
-    updateToy(state, { toy }) {
-      const idx = state.toys.findIndex((t) => t._id === toy._id);
-      state.toys.splice(idx, 1, toy);
+    postReview(state, { review }) {
+      state.reviews.push(review);
     },
   },
 
   actions: {
-    async login({ commit }, { user }) {
+    async loadReviews({ commit }, { filterBy }) {
       try {
-        const loggedUser = await userService.login(user);
-        commit({ type: 'setUser', user: loggedUser });
+        const reviews = await reviewService.query(filterBy);
+        commit({ type: 'setReviews', reviews });
+        console.log(reviews);
       } catch (err) {
-        console.log('cannot login user', err);
+        console.log('couldnt get reviews', err);
       }
     },
-    async signup({ commit }, { user }) {
+    async addReview({ commit }, { review }) {
       try {
-        const signedUpUser = await userService.signup(user);
-        commit({ type: 'setUser', user: signedUpUser });
-      } catch (error) {
-        commit({ type: 'setError', error });
-      }
-    },
-    async logout({ commit }, payload) {
-      try {
-        await userService.logout();
-        commit({ type: 'logoutUser' });
+        const savedReview = await reviewService.addReview(review);
+        commit({ type: 'postReview', review: savedReview });
       } catch (err) {
-        console.log('cannot logout', err);
-      }
-    },
-    async loadToys(context) {
-      try {
-        // toyService.query(context.state.filterBy)
-        const toys = await toyService.query();
-        context.commit({ type: 'setToys', toys });
-      } catch (err) {
-        console.log('Store: Cannot load Toys', err);
-        throw new Error('Cannot load Toys');
-      }
-    },
-    async removeToy({ commit }, payload) {
-      try {
-        // commit({type: 'userRemoveAction', payload})
-        await toyService.remove(payload.toyId);
-        commit({ type: 'removeToy', toyId: payload.toyId });
-      } catch (err) {
-        console.log('Store: Cannot remove toy', err);
-        throw new Error('Cannot remove toy');
-      }
-    },
-    async saveToy({ commit }, { toy }) {
-      console.log('toy in saveToy store:', toy);
-      try {
-        // commit({type: 'userSaveAction', todo})
-        const type = toy._id ? 'updateToy' : 'addToy';
-        const savedToy = await toyService.save(toy);
-        commit({ type, toy: savedToy });
-      } catch (err) {
-        console.log('Store: Cannot save toy', err);
-        throw new Error('Cannot save toy');
-      }
-    },
-    async filterToy({ commit }, { filterBy }) {
-      try {
-        // toyService.query(filterBy)
-        await toyService.query();
-        commit({ type: 'setFilter', filterBy });
-        commit({ type: 'setToys', toys });
-      } catch (err) {
-        console.log('Store: Cannot load Todos', err);
-        throw new Error('Cannot load Todos');
+        console.log('couldnt post review', err);
       }
     },
   },
-  modules: {},
+  modules: {
+    toyStore,
+    userStore,
+  },
 });

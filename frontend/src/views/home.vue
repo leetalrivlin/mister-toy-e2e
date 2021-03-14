@@ -1,6 +1,6 @@
 <template>
   <section class="home-container">
-    <!-- <img alt="toy" src="../assets/imgs/home-1.jpg" class="main-layout" /> -->
+    <img alt="toy" src="../assets/imgs/home-1.jpg" class="main-layout" />
 
     <section v-if="loggedInUser" class="logout-container">
       Hello {{ loggedInUser.fullname }}

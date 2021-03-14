@@ -22,21 +22,17 @@ async function deleteReview(req, res) {
     }
 }
 
-
 async function addReview(req, res) {
     try {
-        var review = req.body
-        review.byUserId = req.session.user._id
-        review = await reviewService.add(review)
-        review.byUser = req.session.user
-        review.aboutUser = await userService.getById(review.aboutUserId)
-        res.send(review)
-
+      var review = req.body;
+      review.userId = req.session.user._id;
+      review = await reviewService.add(review);
+      res.send(review);
     } catch (err) {
-        logger.error('Failed to add review', err)
-        res.status(500).send({ err: 'Failed to add review' })
+      logger.error('Failed to add review', err);
+      res.status(500).send({ err: 'Failed to add review' });
     }
-}
+  }
 
 module.exports = {
     getReviews,
