@@ -1,0 +1,23 @@
+.toy-header-container {
+    background-color: $clr1;
+  
+  
+  .toy-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .toy-logo {
+      font-size: 1.8rem;
+  }
+  
+  .header-nav {
+    margin: none;
+  }
+  
+  .header-nav a {
+    padding: 5px;
+  }
+}
+  

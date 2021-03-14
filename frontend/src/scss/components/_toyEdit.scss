@@ -1,0 +1,17 @@
+.toy-edit-container {
+  width: 60%;
+  margin: 100px auto;
+
+  h3 {
+    margin-bottom: 20px;
+  }
+}
+
+.edit-form {
+  > * {
+    margin-bottom: 20px;
+  }
+  label {
+    margin-bottom: 5px;
+  }
+}

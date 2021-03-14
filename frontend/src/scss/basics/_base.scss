@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* font-family: roboto, sans-serif; */
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: $clr5;
+  color: $clr2;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-family: roboto-bold, sans-serif;
+  margin: 0;
+}
+
+p {
+font-family: roboto, sans-serif;
+  margin: 0;
+}
+
+img {
+  width: 100%;
+}
+
+/* ROUTES */
+
+a {
+  text-decoration: none;
+  color: $clr2;
+}
+
+a:focus,
+a.router-link-exact-active {
+  color: $clr5;
+  font-weight: bold;
+}
+
+/* BUTTON */
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(85%);
+}
