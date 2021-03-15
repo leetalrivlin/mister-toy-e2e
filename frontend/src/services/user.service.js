@@ -3,7 +3,8 @@ const AUTH_URL = 'auth/';
 
 export const userService = {
     login,
-    signUp
+    signUp,
+    logout
   };
 
   async function login(user) {
@@ -23,3 +24,12 @@ export const userService = {
         console.log('User cannot signUp: ',err);
       }
   }
+
+  async function logout(user) {
+    try {
+      const loggedOutUser = await httpService.post(AUTH_URL + 'logout', user);
+      return loggedOutUser;
+    } catch(err) {
+      console.log('User cannot login: ',err);
+    }
+}

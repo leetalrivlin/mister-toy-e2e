@@ -33,6 +33,7 @@ export default {
   },
   methods: {
     async logout() {
+      console.log('logging out...');
       try {
         await this.$store.dispatch({type: 'logout'})
       } catch(err) {

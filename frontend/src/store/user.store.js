@@ -2,9 +2,11 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { userService } from '../services/user.service.js';
 
+Vue.use(Vuex);
+
 export const userStore =({
   state: {
-    loggedInUser: {},
+    loggedInUser: null,
   },
 
   getters: {
@@ -33,7 +35,7 @@ export const userStore =({
     },
     async signup({ commit }, { user }) {
       try {
-        const signedUpUser = await userService.signup(user);
+        const signedUpUser = await userService.signUp(user);
         commit({ type: 'setUser', user: signedUpUser });
       } catch (error) {
         commit({ type: 'setError', error });

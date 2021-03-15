@@ -18,7 +18,7 @@ export default {
   },
   created() {
     this.$store.dispatch('loadToys');
-    this.$store.dispatch('loadReviews');
+    // this.$store.dispatch({type: 'loadReviews'});
   },
 };
 </script>

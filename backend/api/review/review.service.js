@@ -4,13 +4,13 @@ const asyncLocalStorage = require('../../services/als.service')
 
 async function query(filterBy = {}) {
     try {
-      // const criteria = _buildCriteria(filterBy)
+      const criteria = _buildCriteria(filterBy)
       const collection = await dbService.getCollection('review');
       // const reviews = await collection.find(criteria).toArray()
       var reviews = await collection
         .aggregate([
           {
-            $match: filterBy,
+            $match: criteria,
           },
           {
             $lookup: {
@@ -95,10 +95,19 @@ async function query(filterBy = {}) {
     }
   }
 
-function _buildCriteria(filterBy) {
-    const criteria = {}
-    return criteria
-}
+  function _buildCriteria(filterBy) {
+    var criteria;
+    if (filterBy.toyId) {
+      criteria = { toyId: ObjectId(filterBy.toyId) };
+    } else if (filterBy.userId) {
+      criteria = { userId: ObjectId(filterBy.userId) };
+    } else {
+      criteria = {};
+    }
+    // const criteria = {}
+    console.log(criteria);
+    return criteria;
+  }
 
 module.exports = {
     query,

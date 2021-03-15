@@ -13,7 +13,7 @@
     </div>
 
     <addReview @reviewSaved="saveReview" />
-    <reviewList />
+    <reviewList :reviews="toyReviews" @deleteReview="removeReview"/>
   </section>
 </template>
 
@@ -38,20 +38,37 @@ export default {
   methods: {
     saveReview(review) {
         review.toyId = this.$route.params.toyId
+        console.log('review in toydetails',review);
         this.$store.dispatch({type: 'addReview', review});
     },
+    async loadReviews() {
+      try {
+        const id = this.$route.params.toyId;
+        await this.$store.dispatch({
+          type: 'loadReviews',
+          filterBy: { toyId: id },
+        });
+        this.toyReviews = this.$store.getters.reviewsToShow;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    removeReview(id) {
+      this.$store.dispatch({type: 'removeReview', id});
+    }
   },
   async created() {
     try {
     const id = this.$route.params.toyId;
     const toy = await toyService.getById(id)
     this.toy = toy;
-    
-    this.toyReviews = await this.$store.dispatch({type: 'loadReviews', filterBy: id});
     } catch(err) {
       console.log('could not get toy and reviews',err);
     }
 
+  },
+  mounted() {
+    this.loadReviews();
   },
   components: {
     addReview,
