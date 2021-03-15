@@ -4,7 +4,7 @@
       <ul class="stars">
         <li v-for="(star, idx) in rev.rate" :key="idx"></li>
       </ul>
-      <h2>{{ rev.user.username }}</h2>
+      <h4>From: {{ rev.user.username }}</h4>
       <p>{{ rev.content }}</p>
       <button @click="removeReview(rev._id)">X</button>
     </li>

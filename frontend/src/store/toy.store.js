@@ -7,7 +7,12 @@ Vue.use(Vuex);
 export const toyStore = ({
   state: {
     toys: [],
-    filterBy: {},
+    filterBy: {
+      name: '',
+      isInStock: 'all',
+      type: 'all',
+      sortBy: 'name',
+    },
   },
 
   getters: {
@@ -37,11 +42,11 @@ export const toyStore = ({
   },
 
   actions: {
-    async loadToys(context) {
+    async loadToys({commit, state}) {
       try {
         // toyService.query(context.state.filterBy)
-        const toys = await toyService.query();
-        context.commit({ type: 'setToys', toys });
+        const toys = await toyService.query(state.filterBy);
+        commit({ type: 'setToys', toys });
       } catch (err) {
         console.log('Store: Cannot load Toys', err);
         throw new Error('Cannot load Toys');
@@ -69,16 +74,16 @@ export const toyStore = ({
         throw new Error('Cannot save toy');
       }
     },
-    async filterToy({ commit }, { filterBy }) {
-      try {
-        // toyService.query(filterBy)
-        await toyService.query();
-        commit({ type: 'setFilter', filterBy });
-        commit({ type: 'setToys', toys });
-      } catch (err) {
-        console.log('Store: Cannot load Todos', err);
-        throw new Error('Cannot load Todos');
-      }
-    },
+    // async filterToy({ commit }, { filterBy }) {
+    //   try {
+    //     // toyService.query(filterBy)
+    //     await toyService.query();
+    //     commit({ type: 'setFilter', filterBy });
+    //     commit({ type: 'setToys', toys });
+    //   } catch (err) {
+    //     console.log('Store: Cannot load Toys', err);
+    //     throw new Error('Cannot load Toys');
+    //   }
+    // },
   },
 });

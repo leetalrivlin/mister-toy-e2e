@@ -39,8 +39,8 @@ export default {
       }
     },
     setFiltered(filterBy) {
-      this.$store.dispatch({
-        type: 'filterToy',
+      this.$store.commit({
+        type: 'setFilter',
         filterBy: JSON.parse(JSON.stringify(filterBy)),
       });
       this.$store.dispatch('loadToys');

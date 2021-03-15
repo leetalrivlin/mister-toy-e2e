@@ -13,7 +13,8 @@ module.exports = {
 
 async function getToys(req, res) {
   try {
-    const toys = await toyService.query();
+    const filter = JSON.parse(req.query.filterBy)
+    const toys = await toyService.query(filter);
     res.json(toys);
     // res.send(toys);
     console.log('toys in toy.controll:',toys);

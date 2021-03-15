@@ -12,8 +12,11 @@
       </div>
     </div>
 
-    <addReview @reviewSaved="saveReview" />
+    <el-button class="add-review-btn flex justify-center" @click="addReview = !addReview" type="primary" plain>Add review</el-button>
+    <addReview v-if="addReview" @reviewSaved="saveReview" />
     <reviewList :reviews="toyReviews" @deleteReview="removeReview"/>
+    <chatRoom v-if="isChatOn" :toy="toy" :user="user" @closeChat="isChatOn = false"></chatRoom>
+      <el-button class="chat-btn" @click="isChatOn = true" size="default" v-else icon="el-icon-chat-dot-round" circle></el-button>
   </section>
 </template>
 
@@ -21,6 +24,7 @@
 import { toyService } from '../services/toy.service.js';
 import addReview from '../cmps/addReview';
 import reviewList from '../cmps/reviewList';
+import chatRoom from '../cmps/chatRoom';
 
 export default {
   name: 'toyDetails',
@@ -28,11 +32,16 @@ export default {
     return {
       toy: null,
       toyReviews: null,
+      isChatOn: null,
+      addReview: false,
     };
   },
   computed: {
     isInStock() {
       return this.toy.inStock ? 'In Stock!' : 'Not in Stock';
+    },
+    user() {
+      return this.$store.getters.loggedInUser;
     },
   },
   methods: {
@@ -72,7 +81,8 @@ export default {
   },
   components: {
     addReview,
-    reviewList
+    reviewList,
+    chatRoom
   },
 };
 </script>

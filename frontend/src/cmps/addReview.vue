@@ -1,6 +1,5 @@
 <template>
   <section class="review-container">
-    <h1>Add review</h1>
     <form class="review-form" @submit.prevent="saveReview">
       <div class="rate">
         <label for="rate">Rate:</label>

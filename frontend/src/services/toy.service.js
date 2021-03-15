@@ -27,9 +27,10 @@ function prevPage() {
 }
 
 // function query(filterBy) {
-async function query() {
+async function query(filterBy) {
   try {
-    const toys = await httpService.get(TOY_URL);
+    const queryStr = `?filterBy=${JSON.stringify(filterBy)}`;
+    const toys = await httpService.get(TOY_URL+queryStr);
     return toys;
   } catch (err) {
     console.log('error in toy service fronten: ', err);
